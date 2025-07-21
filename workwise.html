@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkWise - Cloud-Based HR Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            overflow-x: hidden;
+        }
+
+        /* =================== HEADER & NAVIGATION =================== */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e7eb;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #00896b;
+        }
+
+        .logo img {
+            height: 35px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #4b5563;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #6366f1;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #00896b;
+            border: 1px solid #00d4aa;
+        }
+
+        .btn-outline:hover {
+            background: #00d4aa;
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4aa 0%, #1e90ff 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #4b5563;
+            cursor: pointer;
+        }
+
+        /* =================== MODAL STYLES =================== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #1e90ff 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px 16px 0 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #f9fafb;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #00d4aa;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+        }
+
+        .form-group.error input,
+        .form-group.error select {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .alert-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            border: 1px solid #d1fae5;
+            color: #065f46;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .modal-footer {
+            text-align: center;
+            padding: 0 2rem 2rem;
+        }
+
+        .modal-footer p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .modal-footer a {
+            color: #00d4aa;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .modal-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* =================== HERO SECTION =================== */
+        .hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 120px 2rem 80px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 500px;
+        }
+
+        .hero-badge {
+            background: linear-gradient(135deg, #e0f8f4 0%, #e6f3ff 100%);
+            color: #00896b;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #111827;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #00d4aa 0%, #1e90ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #00896b;
+            padding: 1rem 2rem;
+            border: 2px solid #00d4aa;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #00d4aa 0%, #1e90ff 100%);
+            color: white;
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-visual {
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+            background: linear-gradient(135deg, #e0f8f4 0%, #e6f3ff 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .floating-card:nth-child(1) {
+            top: 50px;
+            right: -20px;
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #e0f8f4 0%, #b3f0e8 100%);
+            animation-delay: 0s;
+        }
+
+        .floating-card:nth-child(2) {
+            top: 200px;
+            left: -30px;
+            width: 100px;
+            height: 60px;
+            background: linear-gradient(135deg, #e6f3ff 0%, #bde5ff 100%);
+            animation-delay: 1s;
+        }
+
+        .floating-card:nth-child(3) {
+            bottom: 150px;
+            right: -25px;
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #00d4aa 0%, #1e90ff 100%);
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* =================== SECTION COMMONS =================== */
+        .section {
+            padding: 100px 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-badge {
+            background: linear-gradient(135deg, #e0f8f4 0%, #e6f3ff 100%);
+            color: #00896b;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #111827;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        /* =================== TRUSTED COMPANIES =================== */
+        .trusted {
+            background: white;
+            padding: 60px 2rem;
+            text-align: center;
+        }
+
+        .trusted h3 {
+            font-size: 0.9rem;
+            color: #6b7280;
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+
+        .companies-logos {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            opacity: 0.6;
+        }
+
+        .company-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #9ca3af;
+            padding: 0.5rem 1rem;
+        }
+
+        /* =================== FEATURES SECTION =================== */
+        .features {
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .features-content h3 {
+            font-size: 0.9rem;
+            color: #00896b;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .features-content h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: #111827;
+            line-height: 1.2;
+        }
+
+        .features-content p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #e0f8f4 0%, #e6f3ff 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .feature-item div {
+            flex: 1;
+        }
+
+        .feature-item h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.3rem;
+        }
+
+        .feature-item p {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .features-visual {
+            background: linear-gradient(135deg, #e0f8f4 0%, #e6f3ff 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 2px solid rgba(0, 212, 170, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.1);
+        }
+
+        .features-visual h4 {
+            font-size: 1.5rem;
+            color: #00896b;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .features-visual p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-visual ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-visual li {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            color: #4b5563;
+        }
+
+        .features-visual li::before {
+            content: '✓';
+            color: #00d4aa;
+            font-weight: bold;
+        }
+
+        /* =================== PRICING SECTION =================== */
+        .pricing {
+            background: white;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: #6366f1;
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .pricing-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #6366f1;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #111827;
+        }
+
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-card .price-period {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        /* =================== CTA SECTION =================== */
+        .cta {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn-primary {
+            font-size: 1.1rem;
+            padding: 1.2rem 2.5rem;
+        }
+
+        /* =================== FOOTER =================== */
+        footer {
+            background: #111827;
+            color: white;
+            padding: 60px 2rem 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f9fafb;
+        }
+
+        .footer-section p {
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul li a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #6366f1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo img {
+            height: 35px;
+            width: auto;
+        }
+
+        /* =================== RESPONSIVE DESIGN =================== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .features-list {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta h2 {
+                font-size: 2rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* =================== ANIMATIONS =================== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- =================== HEADER =================== -->
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                <img src="http://ygtechdev.my.id/files/photo-1751816625816-123371383.png" alt="WorkWise Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="#" class="btn btn-outline" onclick="redirectToLogin()">Login</a>
+                <button class="btn btn-primary" onclick="openSignupModal()">Sign Up</button>
+            </div>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <!-- =================== SIGNUP MODAL =================== -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeSignupModal()">&times;</span>
+                <h2>Join WorkWise Today!</h2>
+                <p>Create your account and transform your HR management</p>
+            </div>
+            <div class="modal-body">
+                <div class="alert-message" id="alertMessage"></div>
+                
+                <form id="signupForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="first_name" required>
+                            <div class="error-message">First name is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="last_name" required>
+                            <div class="error-message">Last name is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                        <div class="error-message">Please enter a valid email address</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password *</label>
+                            <input type="password" id="password" name="password" required minlength="6">
+                            <div class="error-message">Password must be at least 6 characters</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password *</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                            <div class="error-message">Passwords do not match</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lang">Language</label>
+                        <select id="lang" name="lang">
+                            <option value="en">English</option>
+                            <option value="id">Indonesian</option>
+                        </select>
+                    </div>
+
+                    <!-- Hidden field untuk account type -->
+                    <input type="hidden" id="type" name="type" value="company">
+
+                    <button type="submit" class="btn btn-primary submit-btn">
+                        <span class="loading-spinner"></span>
+                        Create Account
+                    </button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p>Already have an account? <a href="#" onclick="redirectToLogin()">Sign in here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================== HERO SECTION =================== -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">Human • Onboard • Manage</div>
+                <h1>Revolutionize Your HR Management With <span>Cloud-Based Solutions</span></h1>
+                <p>The best HR software for SME companies and startups. Streamline employee payroll maintenance instead of complex spreadsheets, time off, attendance tracking with simple software</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="openSignupModal()">
+                        Get Started
+                        <span>→</span>
+                    </button>
+                    <a href="#features" class="btn-secondary">
+                        <span>▶</span>
+                        See it works
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-visual">
+                    <img src="http://ygtechdev.my.id/files/photo-1751816699844-926983239.png" alt="Professional Woman">
+                    <div class="floating-elements">
+                        <div class="floating-card"></div>
+                        <div class="floating-card"></div>
+                        <div class="floating-card"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== TRUSTED COMPANIES =================== -->
+    <section class="trusted">
+        <div class="container">
+            <h3>Trusted by over 1000 businesses worldwide</h3>
+            <div class="companies-logos">
+                <div class="company-logo">LOCO</div>
+                <div class="company-logo">Slack</div>
+                <div class="company-logo">Netflix</div>
+                <div class="company-logo">PayPal</div>
+                <div class="company-logo">Shopify</div>
+                <div class="company-logo">Oracle</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== FEATURES SECTION =================== -->
+    <section class="section features" id="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="features-content">
+                    <h3>Our Core Features</h3>
+                    <h2>We Make It Effortlessly To Track All Employee Performance</h2>
+                    <p>Optimize your business with intuitive HR solutions that you'll find easy to use for tracking progress and building insights.</p>
+                    
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">📊</div>
+                            <div>
+                                <h4>Powerful Dashboard</h4>
+                                <p>Complete multiple reports in a single screen to make tracking easier</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📋</div>
+                            <div>
+                                <h4>Always in Sync Organize</h4>
+                                <p>Complete multiple reports in a single screen for better organized</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">⏰</div>
+                            <div>
+                                <h4>Time Management</h4>
+                                <p>Identify data visualizations, and insights for better decisions</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📈</div>
+                            <div>
+                                <h4>Advanced Analytics</h4>
+                                <p>Track multiple insights in a single view to make better decisions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="features-image">
+                    <div class="features-visual">
+                        <h4>Smart HR Analytics</h4>
+                        <p>Dapatkan insight mendalam tentang performa tim Anda dengan dashboard analytics yang powerful dan real-time reporting.</p>
+                        <ul>
+                            <li>Real-time performance tracking</li>
+                            <li>Automated report generation</li>
+                            <li>Advanced data visualization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== PRICING SECTION =================== -->
+    <section class="section pricing" id="pricing">
+        <div class="container">
+            <div class="section-badge">Pricing</div>
+            <h2 class="section-title">Flexible Plans & Friendly Budget</h2>
+            <p class="section-subtitle">Choose the perfect plan for your business needs with our transparent pricing</p>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card fade-in">
+                    <h3>Basic</h3>
+                    <div class="price">Free</div>
+                    <div class="price-period">Free Trial 3 Months</div>
+                    <ul class="pricing-features">
+                        <li>Up to 5 individual and team reports</li>
+                        <li>Track unlimited projects</li>
+                        <li>20+ native integrations</li>
+                        <li>Basic payroll management</li>
+                        <li>Email support</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;" onclick="openSignupModal()">Get Started</button>
+                </div>
+                
+                <div class="pricing-card featured fade-in">
+                    <h3>Silver</h3>
+                    <div class="price">$199<span style="font-size: 1rem; font-weight: 400;">/month</span></div>
+                    <div class="price-period">Everything in Basic, plus</div>
+                    <ul class="pricing-features">
+                        <li>Up to 25 individual and team reports</li>
+                        <li>Advanced time tracking</li>
+                        <li>Advanced payroll features</li>
+                        <li>Leave management system</li>
+                        <li>Mobile application</li>
+                        <li>Priority email support</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="openSignupModal()">Start Free Trial</button>
+                </div>
+                
+                <div class="pricing-card fade-in">
+                    <h3>Premium</h3>
+                    <div class="price">$399<span style="font-size: 1rem; font-weight: 400;">/month</span></div>
+                    <div class="price-period">Everything in Silver, plus</div>
+                    <ul class="pricing-features">
+                        <li>Unlimited reports and analytics</li>
+                        <li>Advanced custom goals and OKRs</li>
+                        <li>Multi-location management</li>
+                        <li>API access for integrations</li>
+                        <li>Phone and chat support</li>
+                        <li>Dedicated account manager</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;" onclick="openSignupModal()">Get Started</button>
+                </div>
+
+                <div class="pricing-card fade-in">
+                    <h3>Enterprise</h3>
+                    <div class="price">Custom</div>
+                    <div class="price-period">Everything in Premium, plus</div>
+                    <ul class="pricing-features">
+                        <li>Custom integrations and development</li>
+                        <li>White-label solutions</li>
+                        <li>Advanced security and compliance</li>
+                        <li>On-premise deployment option</li>
+                        <li>24/7 premium support</li>
+                        <li>Training and onboarding</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;" onclick="openSignupModal()">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =================== CTA SECTION =================== -->
+    <section class="section cta">
+        <div class="container">
+            <h2>Unlock The Power Of Cloud HR Solutions Today!</h2>
+            <p>Sign up now for a free trial and discover how our cloud HR solutions can revolutionize the way you manage your workforce. Say goodbye to traditional paperwork and hello to streamlined efficiency!</p>
+            <button class="btn btn-primary" onclick="openSignupModal()">Get Started</button>
+        </div>
+    </section>
+
+    <!-- =================== FOOTER =================== -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="http://ygtechdev.my.id/files/photo-1751816625816-123371383.png" alt="WorkWise Logo">
+                </div>
+                <p>Revolutionize your HR management with our cloud-based solutions designed for modern businesses.</p>
+                <p>© 2024 WorkWise. All rights reserved.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#">Integrations</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Status</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2024 WorkWise. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- =================== JAVASCRIPT =================== -->
+    <script>
+        // =================== CONFIGURATION ===================
+        const CONFIG = {
+            API_BASE_URL: 'https://ygtechdev.my.id',
+            LOGIN_REDIRECT_URL: 'http://103.196.155.202:3000/en/login',
+            FONNTE_API_URL: 'https://api.fonnte.com/send',
+            FONNTE_TOKEN: 'ScSuD6CbrZakniT79zut', // Ganti dengan token Fonnte Anda
+            WHATSAPP_TARGET: '085156981682'
+        };
+
+        // =================== UTILITY FUNCTIONS ===================
+        const Utils = {
+            validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            },
+
+            showAlert(message, type = 'error') {
+                const alertElement = document.getElementById('alertMessage');
+                alertElement.className = `alert-message alert-${type}`;
+                alertElement.textContent = message;
+                alertElement.style.display = 'block';
+                
+                // Auto hide success messages after 5 seconds
+                if (type === 'success') {
+                    setTimeout(() => this.hideAlert(), 5000);
+                }
+            },
+
+            hideAlert() {
+                const alertElement = document.getElementById('alertMessage');
+                alertElement.style.display = 'none';
+            },
+
+            clearFormErrors() {
+                document.querySelectorAll('.form-group').forEach(group => {
+                    group.classList.remove('error');
+                });
+            },
+
+            setLoadingState(button, isLoading) {
+                const spinner = button.querySelector('.loading-spinner');
+                if (isLoading) {
+                    button.disabled = true;
+                    spinner.style.display = 'inline-block';
+                    button.innerHTML = '<span class="loading-spinner" style="display: inline-block;"></span>Creating Account...';
+                } else {
+                    button.disabled = false;
+                    spinner.style.display = 'none';
+                    button.innerHTML = 'Create Account';
+                }
+            }
+        };
+
+        // =================== MODAL FUNCTIONS ===================
+        const Modal = {
+            open() {
+                document.getElementById('signupModal').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            },
+
+            close() {
+                document.getElementById('signupModal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+                document.getElementById('signupForm').reset();
+                Utils.clearFormErrors();
+                Utils.hideAlert();
+            }
+        };
+
+        // =================== API FUNCTIONS ===================
+        const API = {
+            async register(userData) {
+                try {
+                    const response = await fetch(`${CONFIG.API_BASE_URL}/api/register`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(userData)
+                    });
+
+                    const result = await response.json();
+                    return { response, result };
+                } catch (error) {
+                    throw new Error('Network error. Please check your connection and try again.');
+                }
+            },
+
+            async sendWhatsAppNotification(userData) {
+                try {
+                    const message = `🎉 *REGISTRASI BARU WORKWISE*
+
+Ada yang registrasi melalui landing page!
+
+👤 *Data Registran:*
+• Nama: ${userData.first_name} ${userData.last_name}
+• Email: ${userData.email}
+• Account Type: Company
+• Language: ${userData.lang || 'en'}
+
+📅 *Waktu Registrasi:*
+${new Date().toLocaleString('id-ID', {
+    day: '2-digit',
+    month: '2-digit', 
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Asia/Jakarta'
+})} WIB
+
+💼 Silakan follow up untuk proses onboarding selanjutnya.
+
+_Powered by WorkWise HR Platform_`;
+
+                    const formData = new FormData();
+                    formData.append('target', CONFIG.WHATSAPP_TARGET);
+                    formData.append('message', message);
+                    formData.append('countryCode', '62');
+
+                    const response = await fetch(CONFIG.FONNTE_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': CONFIG.FONNTE_TOKEN
+                        },
+                        body: formData
+                    });
+
+                    const result = await response.json();
+                    return response.ok && result.status;
+                } catch (error) {
+                    console.error('❌ WhatsApp notification error:', error);
+                    return false;
+                }
+            }
+        };
+
+        // =================== FORM VALIDATION ===================
+        const FormValidator = {
+            validateForm(formId) {
+                const form = document.getElementById(formId);
+                const inputs = form.querySelectorAll('input[required]:not([type="hidden"]), select[required]');
+                let isValid = true;
+
+                Utils.clearFormErrors();
+
+                inputs.forEach(input => {
+                    const formGroup = input.closest('.form-group');
+                    
+                    if (!input.value.trim()) {
+                        formGroup.classList.add('error');
+                        isValid = false;
+                    } else if (input.type === 'email' && !Utils.validateEmail(input.value)) {
+                        formGroup.classList.add('error');
+                        isValid = false;
+                    } else if (input.name === 'confirmPassword') {
+                        const password = form.querySelector('input[name="password"]').value;
+                        if (input.value !== password) {
+                            formGroup.classList.add('error');
+                            isValid = false;
+                        }
+                    }
+                });
+
+                return isValid;
+            },
+
+            setupRealTimeValidation() {
+                document.querySelectorAll('input:not([type="hidden"]), select').forEach(input => {
+                    input.addEventListener('blur', this.validateField.bind(this));
+                    input.addEventListener('input', this.validateFieldOnInput.bind(this));
+                });
+            },
+
+            validateField(event) {
+                const input = event.target;
+                const formGroup = input.closest('.form-group');
+                
+                if (input.hasAttribute('required') && !input.value.trim()) {
+                    formGroup.classList.add('error');
+                } else if (input.type === 'email' && input.value && !Utils.validateEmail(input.value)) {
+                    formGroup.classList.add('error');
+                } else if (input.name === 'confirmPassword') {
+                    const form = input.closest('form');
+                    const password = form.querySelector('input[name="password"]').value;
+                    if (input.value && input.value !== password) {
+                        formGroup.classList.add('error');
+                    } else {
+                        formGroup.classList.remove('error');
+                    }
+                } else {
+                    formGroup.classList.remove('error');
+                }
+            },
+
+            validateFieldOnInput(event) {
+                const input = event.target;
+                const formGroup = input.closest('.form-group');
+                
+                if (formGroup.classList.contains('error') && input.value.trim()) {
+                    if (input.type === 'email') {
+                        if (Utils.validateEmail(input.value)) {
+                            formGroup.classList.remove('error');
+                        }
+                    } else if (input.name === 'confirmPassword') {
+                        const form = input.closest('form');
+                        const password = form.querySelector('input[name="password"]').value;
+                        if (input.value === password) {
+                            formGroup.classList.remove('error');
+                        }
+                    } else {
+                        formGroup.classList.remove('error');
+                    }
+                }
+            }
+        };
+
+        // =================== EVENT HANDLERS ===================
+        const EventHandlers = {
+            async handleFormSubmit(event) {
+                event.preventDefault();
+                
+                Utils.hideAlert();
+                
+                if (!FormValidator.validateForm('signupForm')) {
+                    Utils.showAlert('Please fill in all required fields correctly.', 'error');
+                    return;
+                }
+
+                const form = event.target;
+                const submitBtn = form.querySelector('.submit-btn');
+                Utils.setLoadingState(submitBtn, true);
+
+                try {
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
+                    delete data.confirmPassword;
+
+                    const { response, result } = await API.register(data);
+
+                    if (response.ok && result.status) {
+                        Utils.showAlert('Account created successfully! You can now login to the system.', 'success');
+                        
+                        // Send WhatsApp notification
+                        if (CONFIG.FONNTE_TOKEN !== 'YOUR_FONNTE_TOKEN') {
+                            const whatsappSent = await API.sendWhatsAppNotification(data);
+                            if (whatsappSent) {
+                                console.log('✅ WhatsApp notification sent to admin');
+                            } else {
+                                console.log('⚠️ Account created but WhatsApp notification failed');
+                            }
+                        }
+                        
+                        form.reset();
+                        
+                        setTimeout(() => {
+                            Modal.close();
+                            window.open(CONFIG.LOGIN_REDIRECT_URL, '_blank');
+                        }, 3000);
+                        
+                    } else {
+                        const errorMessage = result.message || 'Registration failed. Please try again.';
+                        Utils.showAlert(errorMessage, 'error');
+                        
+                        if (result.errors && Array.isArray(result.errors)) {
+                            result.errors.forEach(error => {
+                                if (error.path) {
+                                    const field = document.querySelector(`[name="${error.path}"]`);
+                                    if (field) {
+                                        field.closest('.form-group').classList.add('error');
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    Utils.showAlert(error.message, 'error');
+                }
+
+                Utils.setLoadingState(submitBtn, false);
+            },
+
+            handlePasswordConfirmation() {
+                const passwordInput = document.getElementById('password');
+                const confirmPasswordInput = document.getElementById('confirmPassword');
+                
+                passwordInput.addEventListener('input', () => {
+                    if (confirmPasswordInput.value) {
+                        const formGroup = confirmPasswordInput.closest('.form-group');
+                        if (confirmPasswordInput.value === passwordInput.value) {
+                            formGroup.classList.remove('error');
+                        } else {
+                            formGroup.classList.add('error');
+                        }
+                    }
+                });
+            },
+
+            handleSmoothScrolling() {
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    });
+                });
+            },
+
+            handleScrollEffects() {
+                let lastScrollTop = 0;
+                window.addEventListener('scroll', () => {
+                    const header = document.querySelector('header');
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    if (scrollTop > 100) {
+                        header.style.background = 'rgba(255, 255, 255, 0.98)';
+                        header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                    } else {
+                        header.style.background = 'rgba(255, 255, 255, 0.95)';
+                        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+                    }
+                    
+                    lastScrollTop = scrollTop;
+                });
+            },
+
+            handleIntersectionObserver() {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+        };
+
+        // =================== GLOBAL FUNCTIONS ===================
+        function openSignupModal() {
+            Modal.open();
+        }
+
+        function closeSignupModal() {
+            Modal.close();
+        }
+
+        function redirectToLogin() {
+            window.open(CONFIG.LOGIN_REDIRECT_URL, '_blank');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const signupModal = document.getElementById('signupModal');
+            if (event.target === signupModal) {
+                Modal.close();
+            }
+        }
+
+        // Keyboard navigation for modals
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                Modal.close();
+            }
+        });
+
+        // =================== INITIALIZATION ===================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('WorkWise HR Platform - Ready! 🚀');
+            console.log('API Base URL:', CONFIG.API_BASE_URL);
+            console.log('Login Redirect URL:', CONFIG.LOGIN_REDIRECT_URL);
+            
+            if (CONFIG.FONNTE_TOKEN === 'YOUR_FONNTE_TOKEN') {
+                console.warn('⚠️ FONNTE_TOKEN belum diganti! Silakan update dengan token asli dari Fonnte.');
+            }
+
+            // Setup event listeners
+            document.getElementById('signupForm').addEventListener('submit', EventHandlers.handleFormSubmit);
+            
+            // Setup form validation
+            FormValidator.setupRealTimeValidation();
+            EventHandlers.handlePasswordConfirmation();
+            
+            // Setup UI effects
+            EventHandlers.handleSmoothScrolling();
+            EventHandlers.handleScrollEffects();
+            EventHandlers.handleIntersectionObserver();
+        });
+
+        // Enhanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+        });
+    </script>
+</body>
+</html>
